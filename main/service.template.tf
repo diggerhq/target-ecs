@@ -60,11 +60,8 @@ module "monitoring-{{service_name}}" {
     region = var.region
     service_vpc = local.vpc
     service_security_groups = [aws_security_group.ecs_service_sg.id]
-    # image_tag_mutability
-
     subnet_ids = var.public_subnets
 
-    # override by environmentconfig but also possible to have service internal be true
     {% if environment_config.internal is sameas True %}
       internal = true
     {% elif internal is sameas True %}
@@ -73,7 +70,6 @@ module "monitoring-{{service_name}}" {
       internal = false
     {% endif %}
 
-    # deregistration_delay
     health_check = "{{health_check}}"
 
     {% if environment_config.health_check_disabled %}
@@ -180,9 +176,6 @@ module "monitoring-{{service_name}}" {
   output "{{service_name}}" {
     value = ""
   }
-
-
-
 {% else %}
   module "service-{{service_name}}" {
     source = "../module-fargate-service-nolb"
@@ -191,17 +184,10 @@ module "monitoring-{{service_name}}" {
     service_name = "{{service_name}}"
     region = var.region
     service_vpc = local.vpc
-    # image_tag_mutability
-
     subnet_ids = var.public_subnets
-    # lb_port
-    # lb_protocol
     internal = false
-    # replicas
     container_name = "{{app_name}}-{{environment}}-{{service_name}}"
     launch_type = "{{launch_type}}"
-    # ecs_autoscale_min_instances
-    # ecs_autoscale_max_instances
     default_backend_image = "quay.io/turner/turner-defaultbackend:0.2.0"
     tags = var.tags
     {% if task_cpu %}
@@ -218,7 +204,6 @@ module "monitoring-{{service_name}}" {
     {% if environment_config.ecs_autoscale_max_instances %}
       ecs_autoscale_max_instances = "{{environment_config.ecs_autoscale_max_instances}}"
     {% endif %}
-    
   }
 
   output "{{service_name}}_docker_registry" {
