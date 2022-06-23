@@ -17,15 +17,9 @@ module "monitoring-{{service_name}}" {
     region = var.region
     service_vpc = aws_vpc.vpc
     service_security_groups = [aws_security_group.ecs_service_sg.id]
-    # image_tag_mutability
-
     subnet_ids = var.public_subnets
-
     vpcCIDRblock = var.vpcCIDRblock
-    # lb_port
-    # lb_protocol
 
-    # override by environmentconfig but also possible to have service internal be true
     {% if environment_config.internal is sameas True %}
       internal = true
     {% elif internal is sameas True %}
@@ -34,22 +28,15 @@ module "monitoring-{{service_name}}" {
       internal = false
     {% endif %}
 
-    # deregistration_delay
     health_check = "{{health_check}}"
     {% if environment_config.health_check_interval %}
     health_check_interval = "{{environment_config.health_check_interval}}"
     {% endif %}
 
-    # health_check_timeout
-    # health_check_matcher
-    # lb_access_logs_expiration_days
     container_port = "{{container_port}}"
-    # replicas
     container_name = "{{app_name}}-{{environment}}-{{service_name}}"
     launch_type = "{{launch_type}}"
-    # ecs_autoscale_min_instances
-    # ecs_autoscale_max_instances
-    # lb_ssl_certificate_arn = "arn:aws:acm:eu-west-1:262499071169:certificate/411063e8-cd77-4498-921a-23adb15a1b9b"
+
     default_backend_image = "quay.io/turner/turner-defaultbackend:0.2.0"
     {% if task_cpu %}task_cpu = "{{task_cpu}}" {% endif %}
     {% if task_memory %}task_memory = "{{task_memory}}" {% endif %}
@@ -113,16 +100,10 @@ module "monitoring-{{service_name}}" {
       ecs_autoscale_max_instances = "{{environment_config.ecs_autoscale_max_instances}}"
     {% endif %}
 
-    # health_check_interval
-    # health_check_timeout
-    # health_check_matcher
-    # lb_access_logs_expiration_days
     container_port = "{{container_port}}"
-    # replicas
     container_name = "{{app_name}}-{{environment}}-{{service_name}}"
     launch_type = "{{launch_type}}"
-    # ecs_autoscale_min_instances
-    # ecs_autoscale_max_instances
+
     default_backend_image = "quay.io/turner/turner-defaultbackend:0.2.0"
     tags = var.tags
 
@@ -130,12 +111,10 @@ module "monitoring-{{service_name}}" {
       lb_ssl_certificate_arn = "{{environment_config.lb_ssl_certificate_arn}}"
     {% endif %}
 
-
     # for *.dggr.app listeners
     {% if environment_config.dggr_acm_certificate_arn %}
       dggr_acm_certificate_arn = "{{environment_config.dggr_acm_certificate_arn}}"
     {% endif %}
-
 
     {% if task_cpu %}task_cpu = "{{task_cpu}}" {% endif %}
     {% if task_memory %}task_memory = "{{task_memory}}" {% endif %}
