@@ -14,3 +14,7 @@ resource "aws_security_group" "ecs_service_sg" {
   description = "Security group shared by all ECS services"
   vpc_id      = local.vpc.id
 }
+
+output "ecs_cluster_name" {
+  value = aws_ecs_cluster.app.name
+}
