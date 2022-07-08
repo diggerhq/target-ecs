@@ -5,6 +5,7 @@ module "monitoring-{{service_name}}" {
   ecs_cluster_name = aws_ecs_cluster.app.name
   ecs_service_name = "{{service_name}}"
   alarms_sns_topic_arn = var.alarms_sns_topic_arn
+  tags = var.tags
 }
 
 {% if environment_config.tcp_service %}
