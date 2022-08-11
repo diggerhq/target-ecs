@@ -21,8 +21,8 @@ module "monitoring-{{service_name}}" {
     subnet_ids = var.public_subnets
     vpcCIDRblock = var.vpcCIDRblock
 
-    {%- if environment_config.internal is defined %}
-    internal={{ environment_config.internal }}
+    {%- if internal is defined %}
+    internal={{ internal }}
     {%- endif %}
 
     health_check = "{{health_check}}"
@@ -59,8 +59,8 @@ module "monitoring-{{service_name}}" {
     service_security_groups = [aws_security_group.ecs_service_sg.id]
     subnet_ids = var.public_subnets
 
-    {%- if environment_config.internal is defined %}
-    internal={{ environment_config.internal }}
+    {%- if internal is defined %}
+    internal={{ internal }}
     {%- endif %}
 
     health_check = "{{health_check}}"
@@ -178,7 +178,11 @@ module "monitoring-{{service_name}}" {
     region = var.region
     service_vpc = local.vpc
     subnet_ids = var.public_subnets
-    internal = false
+
+    {%- if internal is defined %}
+    internal={{ internal }}
+    {%- endif %}
+
     container_name = "{{app_name}}-{{environment}}-{{service_name}}"
     launch_type = "{{launch_type}}"
     default_backend_image = "quay.io/turner/turner-defaultbackend:0.2.0"
