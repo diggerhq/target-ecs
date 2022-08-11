@@ -21,13 +21,9 @@ module "monitoring-{{service_name}}" {
     subnet_ids = var.public_subnets
     vpcCIDRblock = var.vpcCIDRblock
 
-    {% if environment_config.internal is sameas True %}
-      internal = true
-    {% elif internal is sameas True %}
-      internal = true
-    {% else %}
-      internal = false
-    {% endif %}
+    {%- if environment_config.internal is defined %}
+    internal={{ environment_config.internal }}
+    {%- endif %}
 
     health_check = "{{health_check}}"
     {% if environment_config.health_check_interval %}
@@ -63,13 +59,9 @@ module "monitoring-{{service_name}}" {
     service_security_groups = [aws_security_group.ecs_service_sg.id]
     subnet_ids = var.public_subnets
 
-    {% if environment_config.internal is sameas True %}
-      internal = true
-    {% elif internal is sameas True %}
-      internal = true
-    {% else %}
-      internal = false
-    {% endif %}
+    {%- if environment_config.internal is defined %}
+    internal={{ environment_config.internal }}
+    {%- endif %}
 
     health_check = "{{health_check}}"
 
