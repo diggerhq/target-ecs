@@ -17,10 +17,6 @@ variable "tags" {
 variable "app" {
 }
 
-# The environment that is being built
-variable "environment" {
-}
-
 # ecs derived variable names
 variable "ecs_cluster_name" {}
 

@@ -3,10 +3,10 @@ aws_secret = "{{aws_secret}}"
 digger_aws_key = "{{digger_aws_key}}"
 digger_aws_secret = "{{digger_aws_secret}}"
 app = "{{app_name}}"
-environment = "{{environment}}"
 
+aws_app_identifier = "{{aws_app_identifier}}"
 # ecs derived name (doing checks for backward compatability)
-ecs_cluster_name = "{{app_name}}-{{environment}}"
+ecs_cluster_name = "{{aws_app_identifier}}"
 
 region = "{{region}}"
 
@@ -19,7 +19,6 @@ monitoring_enabled = {{monitoring_enabled | lower}}
 # health_check = "{{health_check}}"
 tags = {
   application   = "{{app_name}}"
-  environment   = "{{environment}}"
   team          = "{{app_name}}-team"
   customer      = "{{app_name}}-customer"
   contact-email = "me@domain.com"

@@ -1,20 +1,20 @@
 
-module "monitoring-{{service_name}}" {
+module "monitoring-{{aws_app_identifier}}" {
   count = var.monitoring_enabled ? 1 : 0
   source = "./monitoring"
   ecs_cluster_name = aws_ecs_cluster.app.name
-  ecs_service_name = "{{service_name}}"
+  ecs_service_name = "{{aws_app_identifier}}"
   alarms_sns_topic_arn = var.alarms_sns_topic_arn
   tags = var.tags
 }
 
 {% if environment_config.tcp_service %}
   
-  module "service-{{service_name}}" {
+  module "service-{{aws_app_identifier}}" {
     source = "../fargate-service-tcp"
 
     ecs_cluster = aws_ecs_cluster.app
-    service_name = "{{service_name}}"
+    service_name = "{{aws_app_identifier}}"
     region = var.region
     service_vpc = aws_vpc.vpc
     service_security_groups = [aws_security_group.ecs_service_sg.id]
@@ -31,7 +31,7 @@ module "monitoring-{{service_name}}" {
     {% endif %}
 
     container_port = "{{container_port}}"
-    container_name = "{{app_name}}-{{environment}}-{{service_name}}"
+    container_name = "{{aws_app_identifier}}"
     launch_type = "{{launch_type}}"
 
     default_backend_image = "quay.io/turner/turner-defaultbackend:0.2.0"
@@ -40,20 +40,20 @@ module "monitoring-{{service_name}}" {
   }
 
 
-  output "{{service_name}}_docker_registry" {
-    value = module.service-{{service_name}}.docker_registry
+  output "{{aws_app_identifier}}_docker_registry" {
+    value = module.service-{{aws_app_identifier}}.docker_registry
   }
 
-  output "{{service_name}}_lb_dns" {
-    value = module.service-{{service_name}}.lb_dns
+  output "{{aws_app_identifier}}_lb_dns" {
+    value = module.service-{{aws_app_identifier}}.lb_dns
   }
 
 {% elif load_balancer %}
-  module "service-{{service_name}}" {
+  module "service-{{aws_app_identifier}}" {
     source = "../module-fargate-service"
 
     ecs_cluster = aws_ecs_cluster.app
-    service_name = "{{service_name}}"
+    service_name = "{{aws_app_identifier}}"
     region = var.region
     service_vpc = local.vpc
     service_security_groups = [aws_security_group.ecs_service_sg.id]
@@ -90,7 +90,7 @@ module "monitoring-{{service_name}}" {
     {% endif %}
 
     container_port = "{{container_port}}"
-    container_name = "{{app_name}}-{{environment}}-{{service_name}}"
+    container_name = "{{aws_app_identifier}}"
     launch_type = "{{launch_type}}"
 
     default_backend_image = "quay.io/turner/turner-defaultbackend:0.2.0"
@@ -111,20 +111,20 @@ module "monitoring-{{service_name}}" {
 
 
   {% if environment_config.create_dns_record %} 
-    resource "aws_route53_record" "{{service_name}}_r53" {
+    resource "aws_route53_record" "{{aws_app_identifier}}_r53" {
       zone_id = "{{environment_config.dns_zone_id}}"
-      name    = "{{environment}}-{{service_name}}.{{environment_config.hostname}}"
+      name    = "{{aws_app_identifier}}.{{environment_config.hostname}}"
       type    = "A"
 
       alias {
-        name                   = module.service-{{service_name}}.lb_dns
-        zone_id                = module.service-{{service_name}}.lb_zone_id
+        name                   = module.service-{{aws_app_identifier}}.lb_dns
+        zone_id                = module.service-{{aws_app_identifier}}.lb_zone_id
         evaluate_target_health = false
       }
     }
 
-    output "{{service_name}}_custom_domain" {
-        value = aws_route53_record.{{service_name}}_r53.fqdn
+    output "{{aws_app_identifier}}_custom_domain" {
+        value = aws_route53_record.{{aws_app_identifier}}_r53.fqdn
     }
 
   {% endif %}
@@ -132,49 +132,49 @@ module "monitoring-{{service_name}}" {
 
   # *.dggr.app domains
   {% if environment_config.use_dggr_domain %} 
-    resource "aws_route53_record" "{{service_name}}_dggr_r53" {
+    resource "aws_route53_record" "{{aws_app_identifier}}_dggr_r53" {
       provider = aws.digger
       zone_id = "{{environment_config.dggr_zone_id}}"
-      name    = "{{app_name}}-{{environment}}-{{service_name}}.{{environment_config.dggr_hostname}}"
+      name    = "{{aws_app_identifier}}.{{environment_config.dggr_hostname}}"
       type    = "A"
 
       alias {
-        name                   = module.service-{{service_name}}.lb_dns
-        zone_id                = module.service-{{service_name}}.lb_zone_id
+        name                   = module.service-{{aws_app_identifier}}.lb_dns
+        zone_id                = module.service-{{aws_app_identifier}}.lb_zone_id
         evaluate_target_health = false
       }
     }
 
-    output "{{service_name}}_dggr_domain" {
-        value = aws_route53_record.{{service_name}}_dggr_r53.fqdn
+    output "{{aws_app_identifier}}_dggr_domain" {
+        value = aws_route53_record.{{aws_app_identifier}}_dggr_r53.fqdn
     }
   {% endif %}
 
-  output "{{service_name}}_docker_registry" {
-    value = module.service-{{service_name}}.docker_registry
+  output "{{aws_app_identifier}}_docker_registry" {
+    value = module.service-{{aws_app_identifier}}.docker_registry
   }
 
-  output "{{service_name}}_lb_dns" {
-    value = module.service-{{service_name}}.lb_dns
+  output "{{aws_app_identifier}}_lb_dns" {
+    value = module.service-{{aws_app_identifier}}.lb_dns
   }
 
-  output "{{service_name}}_lb_arn" {
-    value = module.service-{{service_name}}.lb_arn
+  output "{{aws_app_identifier}}_lb_arn" {
+    value = module.service-{{aws_app_identifier}}.lb_arn
   }
 
-  output "{{service_name}}_lb_http_listener_arn" {
-    value = module.service-{{service_name}}.lb_http_listener_arn
+  output "{{aws_app_identifier}}_lb_http_listener_arn" {
+    value = module.service-{{aws_app_identifier}}.lb_http_listener_arn
   }
 
-  output "{{service_name}}" {
+  output "{{aws_app_identifier}}" {
     value = ""
   }
 {% else %}
-  module "service-{{service_name}}" {
+  module "service-{{aws_app_identifier}}" {
     source = "../module-fargate-service-nolb"
 
     ecs_cluster = aws_ecs_cluster.app
-    service_name = "{{service_name}}"
+    service_name = "{{aws_app_identifier}}"
     region = var.region
     service_vpc = local.vpc
     subnet_ids = var.public_subnets
@@ -183,7 +183,7 @@ module "monitoring-{{service_name}}" {
     internal={{ internal }}
     {%- endif %}
 
-    container_name = "{{app_name}}-{{environment}}-{{service_name}}"
+    container_name = "{{aws_app_identifier}}"
     launch_type = "{{launch_type}}"
     default_backend_image = "quay.io/turner/turner-defaultbackend:0.2.0"
     tags = var.tags
@@ -203,11 +203,11 @@ module "monitoring-{{service_name}}" {
     {% endif %}
   }
 
-  output "{{service_name}}_docker_registry" {
-    value = module.service-{{service_name}}.docker_registry
+  output "{{aws_app_identifier}}_docker_registry" {
+    value = module.service-{{aws_app_identifier}}.docker_registry
   }
 
-  output "{{service_name}}_lb_dns" {
+  output "{{aws_app_identifier}}_lb_dns" {
     value = ""
   }
 

@@ -13,7 +13,7 @@
  */
 
 locals {
-  awsloggroup = "/ecs/service/${var.ecs_cluster.name}-${var.service_name}"
+  awsloggroup = "/ecs/service/${var.service_name}"
 }
 
 resource "aws_appautoscaling_target" "app_scale_target" {

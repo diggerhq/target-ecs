@@ -6,7 +6,7 @@
 
 
 resource "aws_alb" "main" {
-  name = "${var.ecs_cluster.name}-${var.service_name}"
+  name = "${var.service_name}"
 
   # launch lbs in public or private subnets based on "internal" variable
   internal        = var.internal
@@ -22,7 +22,7 @@ resource "aws_alb" "main" {
 }
 
 resource "aws_alb_target_group" "main" {
-  name                 = "${var.ecs_cluster.name}-${var.service_name}"
+  name                 = "${var.service_name}"
   port                 = var.lb_port
   protocol             = var.lb_protocol
   vpc_id               = var.service_vpc.id
@@ -52,7 +52,7 @@ data "aws_elb_service_account" "main" {
 
 # bucket for storing ALB access logs
 resource "aws_s3_bucket" "lb_access_logs" {
-  bucket_prefix = "${var.ecs_cluster.name}-${var.service_name}"
+  bucket_prefix = "${var.service_name}"
   tags          = var.tags
   force_destroy = true
 }

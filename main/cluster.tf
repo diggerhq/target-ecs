@@ -10,7 +10,7 @@ resource "aws_ecs_cluster" "app" {
 }
 
 resource "aws_security_group" "ecs_service_sg" {
-  name_prefix = "${var.ecs_cluster_name}-${var.environment}"
+  name_prefix = "${var.ecs_cluster_name}"
   description = "Security group shared by all ECS services"
   vpc_id      = local.vpc.id
 }
