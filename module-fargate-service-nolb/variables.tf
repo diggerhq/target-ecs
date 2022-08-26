@@ -1,8 +1,6 @@
 
 variable "ecs_cluster" {}
 
-variable "aws_app_identifier" {}
-
 variable "service_name" {}
 
 # The tag mutability setting for the repository (defaults to IMMUTABLE)
