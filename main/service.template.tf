@@ -8,6 +8,19 @@ module "monitoring-{{aws_app_identifier}}" {
   tags = var.tags
 }
 
+
+{% if load_balancer %}
+module "alb" {
+  source = "./alb"
+  vpc_id = aws_vpc.vpc.id
+  subnet_ids = var.public_subnets
+  alb_name = "{{aws_app_identifier}}-lb"
+  security_group_name = "{{aws_app_identifier}}-sg"
+  internal={{ internal }}
+  tags = var.tags
+}
+{%- endif %}
+
 {% if environment_config.tcp_service %}
   
   module "service-{{aws_app_identifier}}" {
@@ -75,10 +88,6 @@ module "monitoring-{{aws_app_identifier}}" {
 
     {% if environment_config.lb_protocol %}
     lb_protocol = "{{environment_config.lb_protocol}}"
-    {% endif %}
-
-    {% if environment_config.alb_arn %}
-    lb_protocol = "{{environment_config.alb_arn}}"
     {% endif %}
 
     {% if health_check_matcher %}
