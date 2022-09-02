@@ -12,7 +12,7 @@ module "monitoring-{{aws_app_identifier}}" {
 {% if load_balancer %}
 module "alb" {
   source = "../alb"
-  vpc_id = aws_vpc.vpc.id
+  vpc_id = local.vpc.id
   subnet_ids = var.public_subnets
   alb_name = "{{aws_app_identifier}}-lb"
   security_group_name = "{{aws_app_identifier}}-sg"
