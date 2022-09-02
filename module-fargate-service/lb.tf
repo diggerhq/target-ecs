@@ -5,11 +5,12 @@
 
 
 data "aws_alb" "main" {
+  count = var.alb_arn == "" ? 0 : 1
   arn = var.alb_arn
 }
 
 resource "aws_alb" "main" {
-  count = var.alb_arn == "" ? 0 : 1
+  count = var.alb_arn == "" ? 1 : 0
   name = var.service_name
 
   # launch lbs in public or private subnets based on "internal" variable
