@@ -104,3 +104,6 @@ output "lb_arn" {
 output "lb_zone_id" {
   value = aws_alb.main.zone_id
 }
+output "alb" {
+  value = aws_alb.main
+}

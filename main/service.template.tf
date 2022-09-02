@@ -21,6 +21,7 @@ module "alb" {
 }
 {%- endif %}
 
+
 {% if environment_config.tcp_service %}
   
   module "service-{{aws_app_identifier}}" {
@@ -71,6 +72,7 @@ module "alb" {
     service_vpc = local.vpc
     service_security_groups = [aws_security_group.ecs_service_sg.id]
     subnet_ids = var.public_subnets
+    alb_arn = module.alb.alb.arn
 
     {%- if internal is defined %}
     internal={{ internal }}

@@ -33,3 +33,4 @@ variable "private_subnets" {
 # The public subnets, minimum of 2, that are a part of the VPC(s)
 variable "public_subnets" {
 }
+
