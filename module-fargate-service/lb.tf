@@ -26,7 +26,7 @@ resource "aws_alb" "main" {
 }
 
 locals {
-  alb = var.alb_arn == "" ? aws_alb.main[0] : data.aws_alb
+  alb = var.alb_arn == "" ? aws_alb.main[0] : data.aws_alb.main
 }
 resource "aws_alb_target_group" "main" {
   name                 = "${var.service_name}"
