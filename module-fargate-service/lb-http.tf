@@ -2,7 +2,7 @@
 # (delete this file if you only want https)
 
 resource "aws_alb_listener" "http" {
-  load_balancer_arn = aws_alb.main.id
+  load_balancer_arn = local.alb.id
   port              = var.lb_port
   protocol          = var.lb_protocol
 
@@ -18,7 +18,7 @@ resource "aws_alb_listener" "http" {
 
 resource "aws_lb_listener" "https" {
   count = (var.lb_ssl_certificate_arn==null && var.dggr_acm_certificate_arn==null) ? 0 : 1
-  load_balancer_arn = aws_alb.main.arn
+  load_balancer_arn = local.alb.arn
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"

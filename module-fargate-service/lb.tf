@@ -4,9 +4,13 @@
 # but you need at least one
 
 
+data "aws_alb" "main" {
+  arn = var.alb_arn
+}
 
 resource "aws_alb" "main" {
-  name = "${var.service_name}"
+  count = var.alb_arn == "" ? 0 : 1
+  name = var.service_name
 
   # launch lbs in public or private subnets based on "internal" variable
   internal        = var.internal
@@ -21,6 +25,9 @@ resource "aws_alb" "main" {
   }
 }
 
+locals {
+  alb = var.alb_arn == "" ? aws_alb.main[0] : data.aws_alb
+}
 resource "aws_alb_target_group" "main" {
   name                 = "${var.service_name}"
   port                 = var.lb_port
@@ -118,11 +125,11 @@ POLICY
 
 # The load balancer DNS name
 output "lb_dns" {
-  value = aws_alb.main.dns_name
+  value = local.alb.dns_name
 }
 
 output "lb_arn" {
-  value = aws_alb.main.arn
+  value = local.alb.arn
 }
 
 output "lb_http_listener_arn" {
@@ -130,5 +137,5 @@ output "lb_http_listener_arn" {
 }
 
 output "lb_zone_id" {
-  value = aws_alb.main.zone_id
+  value = local.alb.zone_id
 }

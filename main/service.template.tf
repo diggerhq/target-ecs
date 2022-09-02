@@ -77,6 +77,10 @@ module "monitoring-{{aws_app_identifier}}" {
     lb_protocol = "{{environment_config.lb_protocol}}"
     {% endif %}
 
+    {% if environment_config.alb_arn %}
+    lb_protocol = "{{environment_config.alb_arn}}"
+    {% endif %}
+
     {% if health_check_matcher %}
     health_check_matcher = "{{health_check_matcher}}"
     {% endif %}
