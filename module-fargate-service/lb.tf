@@ -4,10 +4,6 @@
 # but you need at least one
 
 
-data "aws_alb" "main" {
-  count = var.alb_arn == "" ? 0 : 1
-  arn = var.alb_arn
-}
 
 resource "aws_alb" "main" {
   count = var.alb_arn == "" ? 1 : 0
@@ -24,6 +20,11 @@ resource "aws_alb" "main" {
     enabled = true
     bucket  = aws_s3_bucket.lb_access_logs.bucket
   }
+}
+
+data "aws_alb" "main" {
+  count = var.alb_arn == "" ? 0 : 1
+  arn = var.alb_arn
 }
 
 locals {
