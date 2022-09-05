@@ -36,7 +36,7 @@ resource "aws_alb_target_group" "main" {
 
 resource "aws_lb_target_group_attachment" "main" {
   target_group_arn = aws_alb_target_group.main.arn
-  target_id        = aws_alb_target_group.main.id
+  target_id        = data.aws_alb.main.arn
 }
 
 # The load balancer DNS name
