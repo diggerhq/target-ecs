@@ -9,19 +9,6 @@ module "monitoring-{{aws_app_identifier}}" {
 }
 
 
-{% if load_balancer %}
-module "alb" {
-  source = "../alb"
-  vpc_id = local.vpc.id
-  subnet_ids = var.public_subnets
-  alb_name = "{{aws_app_identifier}}-lb"
-  security_group_name = "{{aws_app_identifier}}-sg"
-  internal={{ internal }}
-  tags = var.tags
-}
-{%- endif %}
-
-
 {% if environment_config.tcp_service %}
   
   module "service-{{aws_app_identifier}}" {
@@ -72,7 +59,7 @@ module "alb" {
     service_vpc = local.vpc
     service_security_groups = [aws_security_group.ecs_service_sg.id]
     subnet_ids = var.public_subnets
-    alb_arn = module.alb.alb.arn
+    alb_arn = "{{ environment_config.alb_arn }}"
 
     {%- if internal is defined %}
     internal={{ internal }}
