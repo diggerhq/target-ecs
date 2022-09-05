@@ -9,6 +9,12 @@ module "monitoring-{{aws_app_identifier}}" {
 }
 
 
+data aws_alb "main" {
+  arn = "{{ environment_config.alb_arn }}"
+}
+
+
+
 {% if environment_config.tcp_service %}
   
   module "service-{{aws_app_identifier}}" {
