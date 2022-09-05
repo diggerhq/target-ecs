@@ -120,9 +120,6 @@ resource "aws_ecs_service" "app" {
   # enable_ecs_managed_tags = true
   # propagate_tags          = "SERVICE"
 
-  # workaround for https://github.com/hashicorp/terraform/issues/12634
-  depends_on = [aws_alb_listener.http]
-
   # [after initial apply] don't override changes made to task_definition
   # from outside of terraform (i.e.; fargate cli)
   lifecycle {
