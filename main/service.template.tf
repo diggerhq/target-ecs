@@ -65,8 +65,8 @@ data aws_alb "main" {
     service_vpc = local.vpc
     service_security_groups = [aws_security_group.ecs_service_sg.id]
     subnet_ids = var.public_subnets
-    alb_arn = "{{ alb_arn }}"
-    listener_rule_path = "{{ listener_rule_path }}"
+    alb_arn = "{{ environment_config.alb_arn }}"
+    listener_rule_path = "{{ environment_config.listener_rule_path }}"
 
     {%- if internal is defined %}
     internal={{ internal }}
