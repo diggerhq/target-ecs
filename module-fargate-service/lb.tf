@@ -34,6 +34,11 @@ resource "aws_alb_target_group" "main" {
   tags = var.tags
 }
 
+resource "aws_lb_target_group_attachment" "main" {
+  target_group_arn = aws_alb_target_group.main.arn
+  target_id        = aws_alb_target_group.main.id
+}
+
 # The load balancer DNS name
 output "lb_dns" {
   value = data.aws_alb.main.dns_name
