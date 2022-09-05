@@ -103,25 +103,6 @@ resource "aws_s3_bucket_policy" "lb_access_logs" {
 POLICY
 }
 
-
-
-resource "aws_lb_listener_rule" "rule" {
-  listener_arn = aws_alb_listener.http.arn
-  priority     = 100
-
-  action {
-    type             = "forward"
-    target_group_arn = aws_alb_target_group.main.arn
-  }
-
-  condition {
-    path_pattern {
-      values = [var.listener_rule_path]
-    }
-  }
-}
-
-
 # The load balancer DNS name
 output "lb_dns" {
   value = data.aws_alb.main.dns_name
@@ -129,10 +110,6 @@ output "lb_dns" {
 
 output "lb_arn" {
   value = data.aws_alb.main.arn
-}
-
-output "lb_http_listener_arn" {
-  value = try(aws_alb_listener.http.arn, null)
 }
 
 output "lb_zone_id" {
