@@ -171,9 +171,6 @@ data aws_alb "main" {
     value = module.service-{{aws_app_identifier}}.lb_arn
   }
 
-  output "{{aws_app_identifier}}_lb_http_listener_arn" {
-    value = module.service-{{aws_app_identifier}}.lb_http_listener_arn
-  }
 
   output "{{aws_app_identifier}}" {
     value = ""
