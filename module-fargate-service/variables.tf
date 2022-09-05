@@ -169,3 +169,4 @@ variable "alb_arn" {
   default = ""
 }
 
+variable "listener_rule_path" {}

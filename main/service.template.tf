@@ -66,6 +66,7 @@ data aws_alb "main" {
     service_security_groups = [aws_security_group.ecs_service_sg.id]
     subnet_ids = var.public_subnets
     alb_arn = "{{ alb_arn }}"
+    listener_rule_path = "{{ listener_rule_path }}"
 
     {%- if internal is defined %}
     internal={{ internal }}
