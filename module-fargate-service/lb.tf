@@ -32,6 +32,7 @@ resource "aws_alb_target_group" "main" {
   }
 
   tags = var.tags
+
 }
 
 data "aws_lb_listener" "listener" {

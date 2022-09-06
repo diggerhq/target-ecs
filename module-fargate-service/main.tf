@@ -125,6 +125,8 @@ resource "aws_ecs_service" "app" {
   lifecycle {
     ignore_changes = [task_definition]
   }
+
+  depends_on = [aws_alb_target_group.main, aws_lb_listener_rule.static]
 }
 
 # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_execution_IAM_role.html
