@@ -52,7 +52,7 @@ resource "aws_lb_listener_rule" "static" {
       values = [var.listener_rule_path]
     }
   }
-
+}
 
 # The load balancer DNS name
 output "lb_dns" {
