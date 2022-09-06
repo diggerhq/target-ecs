@@ -170,3 +170,5 @@ variable "alb_arn" {
 }
 
 variable "listener_rule_path" {}
+
+variable "listener_arn" {}

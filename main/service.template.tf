@@ -61,6 +61,7 @@ module "monitoring-{{aws_app_identifier}}" {
     subnet_ids = var.public_subnets
     alb_arn = "{{ environment_config.alb_arn }}"
     listener_rule_path = "{{ environment_config.listener_rule_path }}"
+    listener_arn = "{{ environment_config.listener_arn }}"
 
     {%- if internal is defined %}
     internal={{ internal }}

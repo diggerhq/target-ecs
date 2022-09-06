@@ -34,6 +34,26 @@ resource "aws_alb_target_group" "main" {
   tags = var.tags
 }
 
+data "aws_lb_listener" "listener" {
+  arn = var.listener_arn
+}
+
+resource "aws_lb_listener_rule" "static" {
+  listener_arn = data.aws_lb_listener.listener
+  priority     = 100
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.main.arn
+  }
+
+  condition {
+    path_pattern {
+      values = [var.listener_rule_path]
+    }
+  }
+
+
 # The load balancer DNS name
 output "lb_dns" {
   value = data.aws_alb.main.dns_name
