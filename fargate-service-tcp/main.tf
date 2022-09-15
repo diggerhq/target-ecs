@@ -104,8 +104,7 @@ resource "aws_ecs_service" "app" {
   network_configuration {
     security_groups = concat([aws_security_group.nsg_task.id], var.service_security_groups)
     subnets = var.subnet_ids
-    assign_public_ip = true
-    # subnets         = split(",", var.private_subnets)
+    assign_public_ip = var.assign_public_ip
   }
 
   load_balancer {
@@ -114,10 +113,6 @@ resource "aws_ecs_service" "app" {
     container_port   = var.container_port
   }
 
-  # requires manual opt-in
-  # tags                    = var.tags
-  # enable_ecs_managed_tags = true
-  # propagate_tags          = "SERVICE"
 
   # workaround for https://github.com/hashicorp/terraform/issues/12634
   depends_on = [aws_lb_listener.tcp]

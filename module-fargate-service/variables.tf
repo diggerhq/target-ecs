@@ -57,6 +57,10 @@ variable "internal" {
   default = true
 }
 
+variable "assign_public_ip" {
+  default = true
+}
+
 # The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused
 variable "deregistration_delay" {
   default = "30"

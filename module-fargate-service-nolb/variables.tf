@@ -27,6 +27,9 @@ variable "internal" {
   default = true
 }
 
+variable "assign_public_ip" {
+  default = true
+}
 
 # === Container ===
 
