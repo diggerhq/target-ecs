@@ -21,7 +21,7 @@ tags = {
   application   = "{{app_name}}"
   team          = "{{app_name}}-team"
   customer      = "{{app_name}}-customer"
-  contact-email = "me@domain.com"
+  digger-target = "target-ecs"
 }
 
 public_subnets = {{public_subnets}}
