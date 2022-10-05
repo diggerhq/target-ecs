@@ -1,3 +1,4 @@
 {% for snippet in snippets %}
-    {{snippet.script}}
+# {{snippet.name}}
+{{snippet.script}}
 {% endfor %}
