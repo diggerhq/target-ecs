@@ -1,7 +1,5 @@
 aws_key = "{{aws_key}}"
 aws_secret = "{{aws_secret}}"
-digger_aws_key = "{{digger_aws_key}}"
-digger_aws_secret = "{{digger_aws_secret}}"
 app = "{{app_name}}"
 
 aws_app_identifier = "{{aws_app_identifier}}"

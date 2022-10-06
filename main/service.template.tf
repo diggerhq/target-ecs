@@ -129,27 +129,6 @@ module "monitoring-{{aws_app_identifier}}" {
 
   {% endif %}
 
-
-  # *.dggr.app domains
-  {% if environment_config.use_dggr_domain %} 
-    resource "aws_route53_record" "{{aws_app_identifier}}_dggr_r53" {
-      provider = aws.digger
-      zone_id = "{{environment_config.dggr_zone_id}}"
-      name    = "{{aws_app_identifier}}.{{environment_config.dggr_hostname}}"
-      type    = "A"
-
-      alias {
-        name                   = module.service-{{aws_app_identifier}}.lb_dns
-        zone_id                = module.service-{{aws_app_identifier}}.lb_zone_id
-        evaluate_target_health = false
-      }
-    }
-
-    output "{{aws_app_identifier}}_dggr_domain" {
-        value = aws_route53_record.{{aws_app_identifier}}_dggr_r53.fqdn
-    }
-  {% endif %}
-
   output "{{aws_app_identifier}}_docker_registry" {
     value = module.service-{{aws_app_identifier}}.docker_registry
   }
