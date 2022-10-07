@@ -5,9 +5,6 @@ variable "aws_key" {
 variable "aws_secret" {
 }
 
-variable "digger_aws_key" {}
-variable "digger_aws_secret" {}
-
 terraform {
   required_version = ">= 0.12"
 
@@ -59,13 +56,3 @@ provider "aws" {
     }
   }
 }
-
-# digger account provider
-provider "aws" {
-  alias = "digger"
-  region  = var.region
-  # profile = var.aws_profile
-  access_key = var.digger_aws_key
-  secret_key = var.digger_aws_secret  
-}
-
