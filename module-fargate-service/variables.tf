@@ -165,3 +165,10 @@ variable "logs_retention_in_days" {
   description = "Specifies the number of days you want to retain log events"
 }
 
+variable "datadog_enabled" {
+  default = false
+}
+
+variable "datadog_key_ssm_arn" {
+  default = ""
+}

@@ -59,12 +59,30 @@ resource "aws_ecs_task_definition" "app" {
       }
     ],
     "logConfiguration": {
+
+%{ if var.datadog_enabled }
+      logDriver: "awsfirelens",
+      options: {
+        Name: "datadog",
+        Host: "aws-kinesis-http-intake.logs.datadoghq.eu",
+        TLS: "on",
+        dd_service: "${var.ecs_cluster.name}",
+        dd_source: "httpd",
+        provider: "ecs",
+        retry_limit: "2"
+    },
+    secretOptions: [{
+      "name": "apikey",
+      "valueFrom": var.datadog_key_ssm_arn
+    }]
+%{ else }
       "logDriver": "awslogs",
       "options": {
         "awslogs-group": "${local.awsloggroup}",
         "awslogs-region": "${var.region}",
         "awslogs-stream-prefix": "ecs"
       }
+%{ endif }
     },
     "mountPoints": [
     %{for mountPoint in var.mountPoints}
@@ -75,6 +93,28 @@ resource "aws_ecs_task_definition" "app" {
     %{endfor}
     ]
   }
+%{ if var.datadog_enabled }
+  ,
+  {
+    essential: true,
+    image: "amazon/aws-for-fluent-bit:latest",
+    name: "log_router",
+    firelensConfiguration: {
+	    type: "fluentbit",
+	    options: {
+		    enable-ecs-log-metadata: "true"
+	    }
+    },
+    logConfiguration = {
+      logDriver : "awslogs",
+      options : {
+        awslogs-group : local.awsloggroup,
+        awslogs-region : var.region,
+        awslogs-stream-prefix : "fluentbit"
+      }
+    }
+  }
+%{ endif }
 ]
 EOT
 
