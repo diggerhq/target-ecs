@@ -70,7 +70,7 @@ module "monitoring-{{aws_app_identifier}}" {
     {% endif %}
 
     {% if environment_config.datadog_enabled %}
-    datadog_enabled = "{{environment_config.datadog_enabled}}"
+    datadog_enabled = {{environment_config.datadog_enabled | lower}}
     {% endif %}
 
     {% if environment_config.health_check_grace_period_seconds %}
