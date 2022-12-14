@@ -83,6 +83,10 @@ resource "aws_ecs_task_definition" "app" {
         "awslogs-stream-prefix": "ecs"
       }
 %{ endif }
+
+
+
+asdasdasdasdasdad
     },
     "mountPoints": [
     %{for mountPoint in var.mountPoints}
