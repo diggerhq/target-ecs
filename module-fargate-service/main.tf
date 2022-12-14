@@ -61,19 +61,19 @@ resource "aws_ecs_task_definition" "app" {
     "logConfiguration": {
 
 %{ if var.datadog_enabled }
-      logDriver: "awsfirelens",
-      options: {
-        Name: "datadog",
-        Host: "aws-kinesis-http-intake.logs.datadoghq.eu",
-        TLS: "on",
-        dd_service: "${var.ecs_cluster.name}",
-        dd_source: "httpd",
-        provider: "ecs",
-        retry_limit: "2"
+      "logDriver": "awsfirelens",
+      "options": {
+        "Name": "datadog",
+        "Host": "aws-kinesis-http-intake.logs.datadoghq.eu",
+        "TLS": "on",
+        "dd_service": "${var.ecs_cluster.name}",
+        "dd_source": "httpd",
+        "provider": "ecs",
+        "retry_limit": "2"
     },
-    secretOptions: [{
+    "secretOptions": [{
       "name": "apikey",
-      "valueFrom": var.datadog_key_ssm_arn
+      "valueFrom": "${var.datadog_key_ssm_arn}"
     }]
 %{ else }
       "logDriver": "awslogs",
