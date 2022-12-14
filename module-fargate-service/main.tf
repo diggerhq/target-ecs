@@ -96,21 +96,21 @@ resource "aws_ecs_task_definition" "app" {
 %{ if var.datadog_enabled }
   ,
   {
-    essential: true,
-    image: "amazon/aws-for-fluent-bit:latest",
-    name: "log_router",
-    firelensConfiguration: {
-	    type: "fluentbit",
-	    options: {
+    "essential": true,
+    "image": "amazon/aws-for-fluent-bit:latest",
+    "name": "log_router",
+    "firelensConfiguration": {
+	    "type": "fluentbit",
+	    "options": {
 		    enable-ecs-log-metadata: "true"
 	    }
     },
-    logConfiguration = {
-      logDriver : "awslogs",
-      options : {
-        awslogs-group : local.awsloggroup,
-        awslogs-region : var.region,
-        awslogs-stream-prefix : "fluentbit"
+    "logConfiguration": {
+      "logDriver" : "awslogs",
+      "options" : {
+        "awslogs-group" : "${local.awsloggroup},
+        "awslogs-region" : "${var.region},
+        "awslogs-stream-prefix" : "fluentbit"
       }
     }
   }
