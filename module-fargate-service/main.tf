@@ -102,14 +102,14 @@ resource "aws_ecs_task_definition" "app" {
     "firelensConfiguration": {
 	    "type": "fluentbit",
 	    "options": {
-		    enable-ecs-log-metadata: "true"
+		    "enable-ecs-log-metadata": "true"
 	    }
     },
     "logConfiguration": {
       "logDriver" : "awslogs",
       "options" : {
-        "awslogs-group" : "${local.awsloggroup},
-        "awslogs-region" : "${var.region},
+        "awslogs-group" : "${local.awsloggroup}",
+        "awslogs-region" : "${var.region}",
         "awslogs-stream-prefix" : "fluentbit"
       }
     }
