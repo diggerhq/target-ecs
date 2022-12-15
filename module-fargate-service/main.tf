@@ -69,7 +69,8 @@ resource "aws_ecs_task_definition" "app" {
         "dd_service": "${var.ecs_cluster.name}",
         "dd_source": "httpd",
         "provider": "ecs",
-        "retry_limit": "2"
+        "retry_limit": "2",
+        "net.keepalive": "false"
     },
     "secretOptions": [{
       "name": "apikey",
