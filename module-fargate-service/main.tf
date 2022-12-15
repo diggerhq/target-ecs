@@ -98,7 +98,7 @@ resource "aws_ecs_task_definition" "app" {
   ,
   {
     "essential": true,
-    "image": "amazon/aws-for-fluent-bit:latest",
+    "image": "amazon/aws-for-fluent-bit:stable",
     "name": "log_router",
     "firelensConfiguration": {
 	    "type": "fluentbit",
