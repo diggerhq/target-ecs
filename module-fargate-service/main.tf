@@ -64,6 +64,7 @@ resource "aws_ecs_task_definition" "app" {
       "logDriver": "awsfirelens",
       "options": {
         "Name": "datadog",
+        "compress": "gzip"
         "Host": "aws-kinesis-http-intake.logs.datadoghq.eu",
         "TLS": "on",
         "dd_service": "${var.ecs_cluster.name}",
