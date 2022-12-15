@@ -71,7 +71,7 @@ module "monitoring-{{aws_app_identifier}}" {
 
     {% if environment_config.datadog_enabled %}
     datadog_enabled = {{environment_config.datadog_enabled | lower}}
-    datadog_key_ssm_arn = "{{environment_config.datadog_key_ssm_arn }}"
+    datadog_key_ssm_arn = "{{ environment_config.datadog_key_ssm_arn }}"
     {% endif %}
 
     {% if environment_config.health_check_grace_period_seconds %}
