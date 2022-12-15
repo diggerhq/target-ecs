@@ -65,7 +65,7 @@ resource "aws_ecs_task_definition" "app" {
       "options": {
         "Name": "datadog",
         "compress": "gzip",
-        "Host": "aws-kinesis-http-intake.logs.datadoghq.eu",
+        "Host": "${var.datadog_logs_host}",
         "TLS": "on",
         "dd_service": "${var.ecs_cluster.name}",
         "dd_source": "httpd",

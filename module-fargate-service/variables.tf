@@ -172,3 +172,8 @@ variable "datadog_enabled" {
 variable "datadog_key_ssm_arn" {
   default = ""
 }
+
+variable "datadog_logs_host" {
+  # https://docs.datadoghq.com/getting_started/site/
+  default = "aws-kinesis-http-intake.logs.datadoghq.eu"
+}
