@@ -184,5 +184,5 @@ variable "datadog_logs_host" {
 
 variable "datadog_site" {
   # https://docs.datadoghq.com/integrations/ecs_fargate/?tab=webui
-  default = "datadoghq.com"
+  default = "datadoghq.eu"
 }
