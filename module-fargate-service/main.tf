@@ -117,6 +117,42 @@ resource "aws_ecs_task_definition" "app" {
     }
   }
 %{ endif }
+%{ if var.datadog_metrics_enabled }
+  ,
+  {
+    "essential": true,
+    "name": "datadog_agent"
+    "image": "public.ecr.aws/datadog/agent:latest",
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "/hoge/hoge/datadog-agent-dev",
+            "awslogs-region": "ap-northeast-1",
+            "awslogs-stream-prefix": "ecs"
+        }
+    },
+    "environment": [
+        {
+            "name": "ECS_FARGATE",
+            "value": "true"
+        },
+        {
+            "name": "DD_PROCESS_AGENT_ENABLED",
+            "value": "true"
+        },
+        {
+            "name": "DD_SITE",
+            "value": "${var.datadog_site}"
+        }
+    ],
+    "secrets": [
+        {
+            "name": "DD_API_KEY",
+            "valueFrom": "${var.datadog_key_ssm_arn}"
+        }
+    ]
+}
+%{ endif }
 ]
 EOT
 
