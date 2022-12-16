@@ -121,7 +121,7 @@ resource "aws_ecs_task_definition" "app" {
   ,
   {
     "essential": true,
-    "name": "datadog_agent"
+    "name": "datadog_agent",
     "image": "public.ecr.aws/datadog/agent:latest",
     "logConfiguration": {
         "logDriver": "awslogs",
