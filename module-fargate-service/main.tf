@@ -126,9 +126,9 @@ resource "aws_ecs_task_definition" "app" {
     "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-            "awslogs-group": "/hoge/hoge/datadog-agent-dev",
-            "awslogs-region": "ap-northeast-1",
-            "awslogs-stream-prefix": "ecs"
+            "awslogs-group": "${local.awsloggroup}",
+            "awslogs-region": "${var.region}",
+            "awslogs-stream-prefix": "ddagent"
         }
     },
     "environment": [
