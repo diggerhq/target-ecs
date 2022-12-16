@@ -165,7 +165,11 @@ variable "logs_retention_in_days" {
   description = "Specifies the number of days you want to retain log events"
 }
 
-variable "datadog_enabled" {
+variable "datadog_logs_enabled" {
+  default = false
+}
+
+variable "datadog_metrics_enabled" {
   default = false
 }
 

@@ -60,7 +60,7 @@ resource "aws_ecs_task_definition" "app" {
     ],
     "logConfiguration": {
 
-%{ if var.datadog_enabled }
+%{ if var.datadog_logs_enabled }
       "logDriver": "awsfirelens",
       "options": {
         "Name": "datadog",
@@ -95,7 +95,7 @@ resource "aws_ecs_task_definition" "app" {
     %{endfor}
     ]
   }
-%{ if var.datadog_enabled }
+%{ if var.datadog_logs_enabled }
   ,
   {
     "essential": true,
