@@ -60,7 +60,7 @@ resource "aws_ecs_task_definition" "app" {
     ],
     "logConfiguration": {
 
-%{ if var.datadog_enabled }
+%{ if var.datadog_logs_enabled }
       "logDriver": "awsfirelens",
       "options": {
         "Name": "datadog",
@@ -95,7 +95,7 @@ resource "aws_ecs_task_definition" "app" {
     %{endfor}
     ]
   }
-%{ if var.datadog_enabled }
+%{ if var.datadog_logs_enabled }
   ,
   {
     "essential": true,
@@ -116,6 +116,42 @@ resource "aws_ecs_task_definition" "app" {
       }
     }
   }
+%{ endif }
+%{ if var.datadog_metrics_enabled }
+  ,
+  {
+    "essential": true,
+    "name": "datadog_agent",
+    "image": "public.ecr.aws/datadog/agent:latest",
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "${local.awsloggroup}",
+            "awslogs-region": "${var.region}",
+            "awslogs-stream-prefix": "ddagent"
+        }
+    },
+    "environment": [
+        {
+            "name": "ECS_FARGATE",
+            "value": "true"
+        },
+        {
+            "name": "DD_PROCESS_AGENT_ENABLED",
+            "value": "true"
+        },
+        {
+            "name": "DD_SITE",
+            "value": "${var.datadog_site}"
+        }
+    ],
+    "secrets": [
+        {
+            "name": "DD_API_KEY",
+            "valueFrom": "${var.datadog_key_ssm_arn}"
+        }
+    ]
+}
 %{ endif }
 ]
 EOT

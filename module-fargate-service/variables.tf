@@ -165,7 +165,11 @@ variable "logs_retention_in_days" {
   description = "Specifies the number of days you want to retain log events"
 }
 
-variable "datadog_enabled" {
+variable "datadog_logs_enabled" {
+  default = false
+}
+
+variable "datadog_metrics_enabled" {
   default = false
 }
 
@@ -176,4 +180,9 @@ variable "datadog_key_ssm_arn" {
 variable "datadog_logs_host" {
   # https://docs.datadoghq.com/getting_started/site/
   default = "aws-kinesis-http-intake.logs.datadoghq.eu"
+}
+
+variable "datadog_site" {
+  # https://docs.datadoghq.com/integrations/ecs_fargate/?tab=webui
+  default = "datadoghq.eu"
 }
