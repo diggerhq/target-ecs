@@ -75,11 +75,17 @@ module "monitoring-{{aws_app_identifier}}" {
 
     {% if environment_config.datadog_logs_enabled %}
     datadog_logs_enabled = {{environment_config.datadog_logs_enabled | lower}}
+    {% endif %}
+
+    {% if environment_config.datadog_logs_host %}
     datadog_logs_host = "{{ environment_config.datadog_logs_host }}"
     {% endif %}
 
     {% if environment_config.datadog_metrics_enabled %}
     datadog_metrics_enabled = {{environment_config.datadog_metrics_enabled | lower}}
+    {% endif %}
+
+    {% if environment_config.datadog_site %}
     datadog_site = "{{ environment_config.datadog_site }}"
     {% endif %}
 
