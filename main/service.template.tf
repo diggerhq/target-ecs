@@ -69,15 +69,17 @@ module "monitoring-{{aws_app_identifier}}" {
     health_check_enabled = false
     {% endif %}
 
+    {% if environment_config.datadog_logs_enabled or environment_config.datadog_metrics_enabled %}
+    datadog_key_ssm_arn = "{{ environment_config.datadog_key_ssm_arn }}"
+    {% endif %}
+
     {% if environment_config.datadog_logs_enabled %}
     datadog_logs_enabled = {{environment_config.datadog_logs_enabled | lower}}
-    datadog_key_ssm_arn = "{{ environment_config.datadog_key_ssm_arn }}"
     datadog_logs_host = "{{ environment_config.datadog_logs_host }}"
     {% endif %}
 
     {% if environment_config.datadog_metrics_enabled %}
     datadog_metrics_enabled = {{environment_config.datadog_metrics_enabled | lower}}
-    datadog_key_ssm_arn = "{{ environment_config.datadog_key_ssm_arn }}"
     datadog_site = "{{ environment_config.datadog_site }}"
     {% endif %}
 
